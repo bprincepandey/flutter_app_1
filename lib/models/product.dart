@@ -1,25 +1,35 @@
-class Product {
-  final String title;
-  final String type;
-  final String description;
-  final String filename;
-  final double height;
-  final double width;
-  final double price;
-  final num rating;
-
-  Product({this.title, this.type, this.description, this.filename, this.height, this.width, this.price, this.rating});
+class ProductModel {
+  static List<Product> products;
 }
 
-final products = [
-  Product(
-    title: "Test 1",
-    type: "OK",
-    description: "Description of this product is awesome.",
-    filename: "not_found",
-    height: 200,
-    width: 200,
-    price: 50,
-    rating: 5
-  )
-];
+class Product {
+  final int id;
+  final String name;
+  final String desc;
+  final num price;
+  final String color;
+  final String image;
+
+  Product({this.id, this.name, this.desc, this.price, this.color, this.image});
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      id: map["id"],
+      name: map["name"],
+      desc: map["desc"],
+      price: map["price"],
+      color: map["color"],
+      image: map["image"]
+    );
+  }
+
+  toMap() => {
+    "id": id,
+    "name": name,
+    "desc": desc,
+    "price": price,
+    "color": color,
+    "image": image
+  };
+
+}

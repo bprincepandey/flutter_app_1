@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/models/product.dart';
-import 'package:flutter_application_1/widgets/drawer.dart';
+import 'package:flutter_application_1/widgets/home_widgets/catalog_header.dart';
+import 'package:flutter_application_1/widgets/home_widgets/product_list.dart';
+import 'package:flutter_application_1/widgets/themes.dart';
+
 // import 'package:flutter_application_1/widgets/product_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,78 +29,30 @@ class _HomePageState extends State<HomePage> {
     ProductModel.products = List.from(productsData)
       .map<Product>((product) => Product.fromMap(product))
       .toList();
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter App"),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: (ProductModel.products != null && ProductModel.products.isNotEmpty)
-        ? 
-        // ListView.builder(
-        //   itemCount: ProductModel.products.length,
-        //   itemBuilder: (context, index) => ProductWidget(
-        //     product: ProductModel.products[index]
-        //   )
-        // )
-        GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
+      backgroundColor: MyTheme.creamColor,
+      body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CatalogHeader(),
+                if (ProductModel.products != null && ProductModel.products.isNotEmpty)
+                  Expanded(child: CatalogList())
+                  // CatalogList()
+                else
+                  Expanded(child: Center(child: CircularProgressIndicator()))
+              ]
+            ),
           ),
-          itemCount: ProductModel.products.length,
-          itemBuilder: (context, index) {
-            final product = ProductModel.products[index];
-            return Card(
-              clipBehavior: Clip.antiAlias,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)
-              ),
-              child: GridTile(
-                header: Container(
-                  child: Text(
-                    product.name,
-                    style: TextStyle(
-                      color: Colors.white
-                    )
-                  ),
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.blue
-                  ),
-                ),
-                child: Image.network(product.image),
-                footer: Container(
-                  child: Text(
-                    product.price.toString(),
-                    style: TextStyle(
-                      color: Colors.white
-                    )
-                  ),
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.black
-                  ),
-                ),
-              ),
-            );
-          }
-        )
-        : Center(
-          child: CircularProgressIndicator(),
-        )
-      ),
-      drawer: MyDrawer(),
+      )
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/widgets/themes.dart';
 
 class CatalogHeader extends StatelessWidget {
   @override
@@ -10,7 +9,7 @@ class CatalogHeader extends StatelessWidget {
         Text(
             "Catalogue App",
             style: TextStyle(
-              color: MyTheme.darkBluishColor,
+              color: Theme.of(context).accentColor,
               fontSize: 40,
               fontWeight: FontWeight.bold
             ),

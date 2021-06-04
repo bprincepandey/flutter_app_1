@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/product.dart';
 import 'package:flutter_application_1/screens/home_detail_page.dart';
-import 'package:flutter_application_1/widgets/themes.dart';
 
 class CatalogList extends StatelessWidget {
   @override
@@ -10,7 +9,7 @@ class CatalogList extends StatelessWidget {
       shrinkWrap: true,
       itemCount: ProductModel.products.length,
       itemBuilder: (context, index) {
-        final product = ProductModel.products[index];
+        final product = ProductModel.getByPosition(index);
         return InkWell(
           onTap: () => Navigator.push(
             context,
@@ -35,14 +34,14 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // color: Colors.white,
-      width: 100,
-      height: 150,
-      margin: const EdgeInsets.all(5),
+      width: 0,
+      height: 160,
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         // shape: BoxShape.circle,
-        color: Colors.white
+        color: Theme.of(context).cardColor
       ),
       child: Row(
         // crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +68,7 @@ class ProductImage extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: MyTheme.creamColor,
+        color: Theme.of(context).canvasColor,
       ),
       child: Image.network(image, width: 100, height: 200),
     );
@@ -83,46 +82,50 @@ class ProductDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            name,
-            style: TextStyle(
-              color: MyTheme.darkBluishColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            desc,
-            style: TextStyle(
-              color: Colors.grey[500]
-            )
-          ),
-          ButtonBar(
-            alignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "\$$price",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15
-                ),
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              name,
+              style: TextStyle(
+                color: Theme.of(context).accentColor,
+                fontWeight: FontWeight.bold,
               ),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  "Buy"
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(MyTheme.darkBluishColor),
-                  shape: MaterialStateProperty.all(StadiumBorder())
-                ),
+            ),
+            Text(
+              desc,
+              style: TextStyle(
+                color: Colors.grey[500]
               )
-            ],
-          )
-        ],
+            ),
+            ButtonBar(
+              buttonPadding: EdgeInsets.zero,
+              alignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "\$$price",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Add to cart"
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Theme.of(context).buttonColor),
+                    shape: MaterialStateProperty.all(StadiumBorder())
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       )
     );
   }
